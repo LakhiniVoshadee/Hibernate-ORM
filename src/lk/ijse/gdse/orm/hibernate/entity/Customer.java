@@ -1,38 +1,35 @@
 package lk.ijse.gdse.orm.hibernate.entity;
 
 
-import org.hibernate.annotations.CreationTimestamp;
-
 import javax.persistence.*;
-import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 
-
-//1-> @Entity(name="customer")
-
-//2-> @Entity
-//    @Table(name="customer")
-
-@Entity(name = "customer")
-//@Table(name = "customer")
+@Entity
+@Table(name = "customer")
 public class Customer {
-   @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
-   @Column(name = "customer_id")
-   private int id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "customer_id")
+    private int id;
 
-   @Column(name = "customer_name")
-   private String name;
+    @Column(name = "customer_name")
+    private String name;
 
-
-   @Column(name = "customer_address")
+    @Column(name = "customer_address")
     private String address;
 
-   @Column(name = "customer_salary")
-    private double salary;
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "customer")
+    private List<Order> orders = new ArrayList<>();
 
-   @CreationTimestamp
-   private Timestamp createdDateTime;
     public Customer() {
+    }
+
+    public Customer(int id, String name, String address, List<Order> orders) {
+        this.id = id;
+        this.name = name;
+        this.address = address;
+        this.orders = orders;
     }
 
     public int getId() {
@@ -59,12 +56,12 @@ public class Customer {
         this.address = address;
     }
 
-    public double getSalary() {
-        return salary;
+    public List<Order> getOrders() {
+        return orders;
     }
 
-    public void setSalary(double salary) {
-        this.salary = salary;
+    public void setOrders(List<Order> orders) {
+        this.orders = orders;
     }
 
     @Override
@@ -73,7 +70,7 @@ public class Customer {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", address='" + address + '\'' +
-                ", salary=" + salary +
+                ", orders=" + orders +
                 '}';
     }
 }
