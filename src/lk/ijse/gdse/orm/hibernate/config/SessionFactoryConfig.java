@@ -59,10 +59,10 @@ public class SessionFactoryConfig {
 
         //to close seession factory  manually
 
-        /*Session session = sessionFactory.openSession();
+      /*  Session session = sessionFactory.openSession();
         sessionFactory.close();
-        return session;
-*/
+        return session;*/
+
 
         return sessionFactory.openSession();
 
